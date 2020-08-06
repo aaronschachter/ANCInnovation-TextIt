@@ -27,6 +27,6 @@ function get(path, query = {}) {
  *
  * @return {Promise}
  */
-module.exports.getContactsByGroupId = (groupId) => {
-  return get('contacts', { group: groupId });
+module.exports.getContacts = (query) => {
+  return get('contacts', query);
 };
