@@ -11,6 +11,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+require('./api/routes')(app);
+
 app.get('/', (req, res) => {
   res.send('hi');
 });
