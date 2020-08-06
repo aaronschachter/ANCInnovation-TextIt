@@ -11,7 +11,7 @@ const queryString = require('query-string');
  * @param {Object} query
  * @return {Promise}
  */
-function get(path, query = {}) {
+module.exports.get = (path, query = {}) => {
   logger.debug('TextIt GET', { path, query });
 
   return client
@@ -25,8 +25,19 @@ function get(path, query = {}) {
 /**
  * Fetch contacts by group ID.
  *
+ * @param {String}
  * @return {Promise}
  */
-module.exports.getContacts = (query) => {
-  return get('contacts', query);
+module.exports.getContactsByGroupId = (groupId) => {
+  return module.exports.get('contacts', { group: groupId });
+};
+
+/**
+ * Fetch group by ID.
+ *
+ * @param {String}
+ * @return {Promise}
+ */
+module.exports.getGroupById = (groupId) => {
+  return module.exports.get('groups', { uuid: groupId });
 };

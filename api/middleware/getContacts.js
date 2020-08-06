@@ -7,7 +7,7 @@ const textIt = require('../services/text-it');
 module.exports = function getContacts() {
   return async (req, res, next) => {
     try {
-      const apiRes = await textIt.getContacts(req.query);
+      const apiRes = await textIt.get('contacts', req.query);
 
       const { next, prev, results } = apiRes.body;
 

@@ -2,6 +2,7 @@
 
 const logger = require('heroku-logger');
 
+const getGroupsMiddleware = require('./middleware/getGroups');
 const getContactsMiddleware = require('./middleware/getContacts');
 
 /**
@@ -9,6 +10,7 @@ const getContactsMiddleware = require('./middleware/getContacts');
  */
 module.exports = (app) => {
   app.get('/api/v1/contacts', getContactsMiddleware());
+  app.get('/api/v1/groups', getGroupsMiddleware());
 
   app.use((error, req, res, next) => {
     const status = error.status || 500;
