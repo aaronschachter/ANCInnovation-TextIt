@@ -13,20 +13,31 @@ module.exports = function getSupport() {
 
       const { contact, flow, results } = req.body;
 
-      const data = {
-        contact,
-        flowName: flow.name,
-        messageText: results.result.value,
-        url: `https://textit.in/contact/read/${contact.uuid}`,
-      };
-
       const textItRes = await textIt.get('contacts', { uuid: contact.uuid });
 
-      console.log('TextIt response', textItRes.body);
+      //const { fields, groups } = textItRes.body;
 
-      const zapierRes = await zapier.postWebhook(data);
+      console.log(textItRes);
 
-      console.log('Zapier response', zapierRes.body);
+       const data = {
+        contact: {
+          name: contact.name,
+          phone: contact.urn.substring(5),
+          url:  `https://textit.in/contact/read/${contact.uuid}`,
+        },
+        message: {
+          flowName: flow.name,
+          text: results.result.value,
+        },
+//        fields,
+//        groups,
+      };   
+
+      console.log(data);
+
+      //const zapierRes = await zapier.postWebhook(data);
+
+      //console.log('Zapier response', zapierRes.body);
 
       return res.send('Sent to zapier');
     } catch (error) {

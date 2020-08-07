@@ -3,6 +3,8 @@
 const client = require('superagent');
 const logger = require('heroku-logger');
 
+const { webhookUrl } = require('../../config/services/zapier');
+
 /**
  * Execute a POST request to a Zapier webhook.
  *
@@ -12,6 +14,5 @@ const logger = require('heroku-logger');
 module.exports.postWebhook = (data) => {
   logger.debug('Zapier POST', { data });
 
-  return superagent.post(process.env.ZAPIER_WEBHOOK_URL)
-    .send(data);
+  return client.post(webhookUrl).send(data);
 }

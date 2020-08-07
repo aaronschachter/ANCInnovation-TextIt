@@ -4,6 +4,8 @@ const client = require('superagent');
 const logger = require('heroku-logger');
 const queryString = require('query-string');
 
+const config = require('../../config/services/text-it');
+
 /**
  * Execute a GET request to the TextIt API.
  *
@@ -19,7 +21,7 @@ module.exports.get = (path, query = {}) => {
       url: `https://api.textit.in/api/v2/${path}.json`,
       query,
     }))
-    .set('Authorization', 'Token ' + process.env.TEXT_IT_API_TOKEN);
+    .set('Authorization', `Token ${config.apiToken}`);
 }
 
 /**
@@ -41,3 +43,13 @@ module.exports.getContactsByGroupId = (groupId) => {
 module.exports.getGroupById = (groupId) => {
   return module.exports.get('groups', { uuid: groupId });
 };
+
+/**
+ * Fetch the group used to manage all subscribers.
+ *
+ * @return {Promise}
+ */
+module.exports.getAllSubscribersGroup = () => {
+  return module.exports.get('groups', { uuid: config.groups.allSubscribers })
+    .then(res => res.body.results[0]);
+}

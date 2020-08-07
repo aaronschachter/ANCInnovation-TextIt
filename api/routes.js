@@ -5,17 +5,21 @@ const logger = require('heroku-logger');
 const catchallMiddleware = require('./middleware/catchall');
 const getGroupsMiddleware = require('./middleware/getGroups');
 const getContactsMiddleware = require('./middleware/getContacts');
+const createBatchesMiddleware = require('./middleware/createBatches');
+const parseFlowEventMiddleware = require('./middleware/parseFlowEvent');
 
 /**
  * API routes.
  */
 module.exports = (app) => {
-  // GET requests
   app.get('/api/v1/groups', getGroupsMiddleware());
   app.get('/api/v1/contacts', getContactsMiddleware());
 
-  // POST requests
-  app.post('/api/v1/catchall', catchallMiddleware());
+  app.post('/api/v1/batches',
+    parseFlowEventMiddleware(),
+    createBatchesMiddleware());
+
+  app.post('/api/v1/support', catchallMiddleware());
 
   // Error handler
   app.use((error, req, res, next) => {
