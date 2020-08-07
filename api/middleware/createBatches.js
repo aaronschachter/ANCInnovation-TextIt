@@ -22,9 +22,11 @@ module.exports = function createBatches() {
       const batches = [];
 
       for (let i = 0; i < numberOfBatches; i++) {
+        const group = await textIt.createGroup(`Subscribers ${dateTime} - Batch ${i + 1}`);
+ 
         batches[i] = {
+          group,
           count: 0,
-          name: `Subscribers ${dateTime} - Batch ${i + 1}`,
           members: [],
         };
       }
@@ -55,13 +57,15 @@ module.exports = function createBatches() {
       }
 
       const data = {
+        dateTime,
         numberOfSubscribers,
-        groups: batches.map(group => lodash.pick(group, ['name', 'count']))
+        numberOfBatches,
+        groups: batches.map(group => lodash.pick(group, ['name', 'count', 'group']))
       };
 
       logger.debug(`Finished creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers.`);
 
-      return res.send({ data });
+      return res.send(data);
     } catch (error) {
       return next(error);
     }
