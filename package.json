@@ -10,9 +10,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^2.15.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "heroku-logger": "^0.3.3",
+    "lodash": "^4.17.19",
     "query-string": "^6.13.1",
     "superagent": "^5.3.1"
   }

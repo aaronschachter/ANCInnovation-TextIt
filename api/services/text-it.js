@@ -13,7 +13,7 @@ const config = require('../../config/services/text-it');
  * @param {Object} query
  * @return {Promise}
  */
-module.exports.get = (path, query = {}) => {
+function get(path, query = {}) {
   logger.debug('TextIt GET', { path, query });
 
   return client
@@ -25,6 +25,22 @@ module.exports.get = (path, query = {}) => {
 }
 
 /**
+ * Execute a POST request to the TextIt API.
+ *
+ * @param {String} path
+ * @param {Object} data
+ * @return {Promise}
+ */
+function post(path, data) {
+  logger.debug('TextIt POST', { path, data });
+
+  return client
+    .post(`https://api.textit.in/api/v2/${path}.json`)
+    .set('Authorization', `Token ${config.apiToken}`)
+    .send(data);
+}
+
+/**
  * Execute a GET request to the TextIt API by URL.
  *
  * @param {String} url
@@ -33,7 +49,8 @@ module.exports.get = (path, query = {}) => {
 module.exports.getByUrl = (url) => {
   logger.debug('TextIt GET', { url });
 
-  return client.get(url).set('Authorization', `Token ${config.apiToken}`);
+  return client.get(url)
+    .set('Authorization', `Token ${config.apiToken}`);
 }
 
 /**
@@ -44,7 +61,7 @@ module.exports.getByUrl = (url) => {
  * @return {Promise}
  */
 module.exports.getContactsByGroupId = (groupId, cursor) => {
-  return module.exports.get('contacts', { group: groupId, cursor })
+  return get('contacts', { group: groupId, cursor })
     .then(res => res.body);
 };
 
@@ -55,7 +72,7 @@ module.exports.getContactsByGroupId = (groupId, cursor) => {
  * @return {Promise}
  */
 module.exports.getGroupById = (groupId) => {
-  return module.exports.get('groups', { uuid: groupId })
+  return get('groups', { uuid: groupId })
     .then(res => res.body.results[0]);
 };
 
@@ -65,6 +82,18 @@ module.exports.getGroupById = (groupId) => {
  * @return {Promise}
  */
 module.exports.getAllSubscribersGroup = () => {
-  return module.exports.get('groups', { uuid: config.groups.allSubscribers })
+  return get('groups', { uuid: config.groups.allSubscribers })
     .then(res => res.body.results[0]);
 }
+
+/**
+ * Create a new group.
+ *
+ * @param {String} name
+ * @return {Promise}
+ */
+module.exports.createGroup = (name) => {
+  return post('groups', { name })
+    .then(res => res.body);
+}
+

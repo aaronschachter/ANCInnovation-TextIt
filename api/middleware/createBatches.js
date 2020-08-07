@@ -1,5 +1,7 @@
 'use strict';
 
+const lodash = require('lodash');
+const dateFns = require('date-fns');
 const logger = require('heroku-logger');
 
 const textIt = require('../services/text-it');
@@ -7,6 +9,8 @@ const textIt = require('../services/text-it');
 module.exports = function createBatches() {
   return async (req, res, next) => {
     try {
+      const dateTime = dateFns.format(new Date(), 'Pp');
+
       const allSubscribersGroup = await textIt.getAllSubscribersGroup();
 
       const groupId = allSubscribersGroup.uuid;
@@ -20,6 +24,7 @@ module.exports = function createBatches() {
       for (let i = 0; i < numberOfBatches; i++) {
         batches[i] = {
           count: 0,
+          name: `Subscribers ${dateTime} - Batch ${i + 1}`,
           members: [],
         };
       }
@@ -36,6 +41,7 @@ module.exports = function createBatches() {
 
           return i === 7 ? i = 0 : i++;     
         });
+
         logger.debug(`Batched ${results.length} subscribers`);
 
         if (next) {
@@ -48,11 +54,14 @@ module.exports = function createBatches() {
         }
       }
 
-      logger.debug('Finished creating batches');
+      const data = {
+        numberOfSubscribers,
+        groups: batches.map(group => lodash.pick(group, ['name', 'count']))
+      };
 
-      req.data = Object.assign(req.data, { batches }); 
+      logger.debug(`Finished creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers.`);
 
-      return res.send({ data: req.data });
+      return res.send({ data });
     } catch (error) {
       return next(error);
     }
