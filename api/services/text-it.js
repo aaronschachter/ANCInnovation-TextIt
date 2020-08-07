@@ -25,13 +25,14 @@ module.exports.get = (path, query = {}) => {
 }
 
 /**
- * Fetch contacts by group ID.
+ * Fetch a page of contacts by group ID.
  *
- * @param {String}
+ * @param {String} groupId
+ * @param {String} cursor
  * @return {Promise}
  */
-module.exports.getContactsByGroupId = (groupId) => {
-  return module.exports.get('contacts', { group: groupId });
+module.exports.getContactsByGroupId = (groupId, cursor) => {
+  return module.exports.get('contacts', { group: groupId, cursor });
 };
 
 /**
@@ -41,7 +42,8 @@ module.exports.getContactsByGroupId = (groupId) => {
  * @return {Promise}
  */
 module.exports.getGroupById = (groupId) => {
-  return module.exports.get('groups', { uuid: groupId });
+  return module.exports.get('groups', { uuid: groupId })
+    .then(res => res.body.results[0]);
 };
 
 /**
