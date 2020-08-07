@@ -10,7 +10,11 @@ module.exports = function createBatches() {
       const allSubscribersGroup = await textIt.getAllSubscribersGroup();
 
       const groupId = allSubscribersGroup.uuid;
-      const numberOfBatches = Math.ceil(allSubscribersGroup.count / 100);
+      const numberOfSubscribers = allSubscribersGroup.count;
+      const numberOfBatches = Math.ceil(numberOfSubscribers / 100);
+
+      logger.debug(`Creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers`);
+
       const batches = [];
 
       for (let i = 0; i < numberOfBatches; i++) {
@@ -20,35 +24,32 @@ module.exports = function createBatches() {
         };
       }
 
-      let i = 0;
-
       let subscribersRes = await textIt.getContactsByGroupId(groupId);
 
       let { results, next } = subscribersRes;
+      let i = 0;
 
       while (results || next) {
         results.forEach(({ uuid }) => {
-          logger.debug('Adding user to batch', { i, uuid });
-
           batches[i].members.push(uuid);
           batches[i].count++;
 
-          if (i === 7) {
-            i = 0;
-
-            return;
-          }
-
-          i++;    
+          return i === 7 ? i = 0 : i++;     
         });
+        logger.debug(`Batched ${results.length} subscribers`);
 
-        subscribersRes = await textIt.getByUrl(next);
-        results = subscribersRes.results;
-        next = subscribersRes.next;
+        if (next) {
+          subscribersRes = await textIt.getByUrl(next);
+
+          results = subscribersRes.body.results;
+          next = subscribersRes.body.next;       
+        } else {
+          break;
+        }
       }
 
       logger.debug('Finished creating batches');
- 
+
       req.data = Object.assign(req.data, { batches }); 
 
       return res.send({ data: req.data });
