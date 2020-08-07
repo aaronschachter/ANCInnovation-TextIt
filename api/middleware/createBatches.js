@@ -15,20 +15,16 @@ module.exports = function createBatches() {
 
       const groupId = allSubscribersGroup.uuid;
       const numberOfSubscribers = allSubscribersGroup.count;
-      const numberOfBatches = Math.ceil(numberOfSubscribers / 100);
+      const numberOfGroups = Math.ceil(numberOfSubscribers / 100);
 
       logger.debug(`Creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers`);
 
-      const batches = [];
+      const groups = [];
 
       for (let i = 0; i < numberOfBatches; i++) {
         const group = await textIt.createGroup(`Subscribers ${dateTime} - Batch ${i + 1}`);
- 
-        batches[i] = {
-          group,
-          count: 0,
-          members: [],
-        };
+
+        groups[i] = assign(group, { members: [] });
       }
 
       let subscribersRes = await textIt.getContactsByGroupId(groupId);
@@ -38,8 +34,8 @@ module.exports = function createBatches() {
 
       while (results || next) {
         results.forEach(({ uuid }) => {
-          batches[i].members.push(uuid);
-          batches[i].count++;
+          groups[i].members.push(uuid);
+          groups[i].count++;
 
           return i === 7 ? i = 0 : i++;     
         });
@@ -59,8 +55,8 @@ module.exports = function createBatches() {
       const data = {
         dateTime,
         numberOfSubscribers,
-        numberOfBatches,
-        groups: batches.map(group => lodash.pick(group, ['name', 'count', 'group']))
+        numberOfGroups,
+        groups: batches.map(group => lodash.pick(['uuid', 'name', 'count']))
       };
 
       logger.debug(`Finished creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers.`);

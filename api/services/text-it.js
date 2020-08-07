@@ -97,3 +97,22 @@ module.exports.createGroup = (name) => {
     .then(res => res.body);
 }
 
+/**
+ * Returns web URL for a contact.
+ *
+ * @param {String} contactId
+ * @return {String}
+ */
+module.exports.getUrlForContactId = (contactId) => {
+  return `https://textit.in/contact/read/${contactId}`;
+}
+
+/**
+ * Returns web URL for a group.
+ *
+ * @param {String} groupId
+ * @return {String}
+ */
+module.exports.getUrlForGroupId = (groupId) => {
+  return `https://textit.in/contact/filter/${groupId}`;
+}
