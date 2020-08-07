@@ -6,6 +6,8 @@ const queryString = require('query-string');
 
 const config = require('../../config/services/text-it');
 
+const baseUri = 'https://api.textit.in/api/v2/';
+
 /**
  * Execute a GET request to the TextIt API.
  *
@@ -17,10 +19,8 @@ function get(path, query = {}) {
   logger.debug('TextIt GET', { path, query });
 
   return client
-    .get(queryString.stringifyUrl({
-      url: `https://api.textit.in/api/v2/${path}.json`,
-      query,
-    }))
+    .get(`${baseUri}${path}.json`)
+    .query(query)
     .set('Authorization', `Token ${config.apiToken}`);
 }
 
@@ -32,10 +32,10 @@ function get(path, query = {}) {
  * @return {Promise}
  */
 function post(path, data) {
-  logger.debug('TextIt POST', { path, data });
+  logger.debug('TextIt POST', { path });
 
   return client
-    .post(`https://api.textit.in/api/v2/${path}.json`)
+    .post(`${baseUri}${path}.json`)
     .set('Authorization', `Token ${config.apiToken}`)
     .send(data);
 }
@@ -77,6 +77,30 @@ module.exports.getGroupById = (groupId) => {
 };
 
 /**
+ * Delete group by ID.
+ *
+ * @param {String}
+ * @return {Promise}
+ */
+module.exports.deleteGroupById = (groupId) => {
+  return client
+    .delete(`${baseUri}groups.json`)
+    .query({ uuid: groupId })
+    .set('Authorization', `Token ${config.apiToken}`);
+};
+
+/**
+ * Fetch group by name.
+ *
+ * @param {String}
+ * @return {Promise}
+ */
+module.exports.getGroupByName = (name) => {
+  return get('groups', { name })
+    .then(res => res.body.results[0]);
+};
+
+/**
  * Fetch the group used to manage all subscribers.
  *
  * @return {Promise}
@@ -95,6 +119,23 @@ module.exports.getAllSubscribersGroup = () => {
 module.exports.createGroup = (name) => {
   return post('groups', { name })
     .then(res => res.body);
+}
+
+/**
+ * Add list of contact IDs to a group ID.
+ *
+ * @param {Array} contacts
+ * @param {String} groupId
+ * @return {Promise}
+ */
+module.exports.addContactsToGroup = (contacts, groupId) => {
+  const data = {
+    action: 'add',
+    contacts,
+    group: groupId, 
+  };
+
+  return post('contact_actions', data).then(res => res.body);
 }
 
 /**

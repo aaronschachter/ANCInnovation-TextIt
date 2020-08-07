@@ -17,14 +17,24 @@ module.exports = function createBatches() {
       const numberOfSubscribers = allSubscribersGroup.count;
       const numberOfGroups = Math.ceil(numberOfSubscribers / 100);
 
-      logger.debug(`Creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers`);
+      logger.debug(`Creating ${numberOfGroups} batches for ${numberOfSubscribers} subscribers`);
 
       const groups = [];
 
-      for (let i = 0; i < numberOfBatches; i++) {
-        const group = await textIt.createGroup(`Subscribers ${dateTime} - Batch ${i + 1}`);
+      for (let i = 0; i < numberOfGroups; i++) {
+        const name = `Subscribers Batch ${i + 1}`;
 
-        groups[i] = assign(group, { members: [] });
+        let group = await textIt.getGroupByName(name);
+
+        if (group) {
+          logger.debug('Deleting existing group', { group });
+
+          await textIt.deleteGroupById(group.uuid);
+        }
+
+        group = await textIt.createGroup(name);
+
+        groups[i] = lodash.assign(group, { members: [] });
       }
 
       let subscribersRes = await textIt.getContactsByGroupId(groupId);
@@ -52,14 +62,19 @@ module.exports = function createBatches() {
         }
       }
 
+      // Now that we've batched all subscribers, add them to the groups we created.
+      groups.forEach(async (group) => {
+        await textIt.addContactsToGroup(group.members, group.uuid);
+      });
+
       const data = {
         dateTime,
         numberOfSubscribers,
         numberOfGroups,
-        groups: batches.map(group => lodash.pick(['uuid', 'name', 'count']))
+        groups: groups.map(group => lodash.pick(['uuid', 'name', 'count']))
       };
 
-      logger.debug(`Finished creating ${numberOfBatches} batches for ${numberOfSubscribers} subscribers.`);
+      logger.debug(`Finished creating ${numberOfGroups} batches for ${numberOfSubscribers} subscribers.`);
 
       return res.send(data);
     } catch (error) {
