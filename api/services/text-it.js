@@ -25,6 +25,18 @@ module.exports.get = (path, query = {}) => {
 }
 
 /**
+ * Execute a GET request to the TextIt API by URL.
+ *
+ * @param {String} url
+ * @return {Promise}
+ */
+module.exports.getByUrl = (url) => {
+  logger.debug('TextIt GET', { url });
+
+  return client.get(url).set('Authorization', `Token ${config.apiToken}`);
+}
+
+/**
  * Fetch a page of contacts by group ID.
  *
  * @param {String} groupId
@@ -32,7 +44,8 @@ module.exports.get = (path, query = {}) => {
  * @return {Promise}
  */
 module.exports.getContactsByGroupId = (groupId, cursor) => {
-  return module.exports.get('contacts', { group: groupId, cursor });
+  return module.exports.get('contacts', { group: groupId, cursor })
+    .then(res => res.body);
 };
 
 /**

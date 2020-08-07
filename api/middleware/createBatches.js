@@ -9,36 +9,46 @@ module.exports = function createBatches() {
     try {
       const allSubscribersGroup = await textIt.getAllSubscribersGroup();
 
+      const groupId = allSubscribersGroup.uuid;
       const numberOfBatches = Math.ceil(allSubscribersGroup.count / 100);
-
       const batches = [];
 
       for (let i = 0; i < numberOfBatches; i++) {
-        batches[i] = [];
+        batches[i] = {
+          count: 0,
+          members: [],
+        };
       }
-
-      const subscribersRes = await textIt.getContactsByGroupId(allSubscribersGroup.uuid);
-
-      const { results, next } = subscribersRes.body;
 
       let i = 0;
 
-      results.forEach(({ uuid }) => {
-        logger.debug('Adding user to batch', { i, uuid });
+      let subscribersRes = await textIt.getContactsByGroupId(groupId);
 
-        batches[i].push(uuid);
+      let { results, next } = subscribersRes;
 
-        if (i === 7) {
-          i = 0;
+      while (results || next) {
+        results.forEach(({ uuid }) => {
+          logger.debug('Adding user to batch', { i, uuid });
 
-          return;
-        }
+          batches[i].members.push(uuid);
+          batches[i].count++;
 
-        i++;    
-      });
+          if (i === 7) {
+            i = 0;
 
-      //const { contact, flow, results } = req.body;
-      req.data.group = allSubscribersGroup;
+            return;
+          }
+
+          i++;    
+        });
+
+        subscribersRes = await textIt.getByUrl(next);
+        results = subscribersRes.results;
+        next = subscribersRes.next;
+      }
+
+      logger.debug('Finished creating batches');
+ 
       req.data = Object.assign(req.data, { batches }); 
 
       return res.send({ data: req.data });
