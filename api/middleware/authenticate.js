@@ -17,7 +17,6 @@ function validateBasicAuth(user) {
 module.exports = function authenticate() {
   return (req, res, next) => {
     const user = auth(req) || {};
-    logger.info({ user });
 
     if (validateBasicAuth(user)) {
       return next();

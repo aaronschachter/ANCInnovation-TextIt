@@ -14,9 +14,9 @@ const parseFlowEventMiddleware = require('./middleware/inbox/parseFlowEvent');
  * API routes.
  */
 module.exports = (app) => {
-  app.use(authenticateMiddleware());
+  app.get('/', (req, res) => res.send('OK'));
 
-  app.get('/', (req, res) => res.send('Hi'));
+  app.use(authenticateMiddleware());
 
   app.post('/api/v1/subscriber-groups',
     createSubscriberGroupsMiddleware(),

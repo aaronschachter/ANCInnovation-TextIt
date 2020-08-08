@@ -2,7 +2,6 @@
 
 const client = require('superagent');
 const logger = require('heroku-logger');
-const queryString = require('query-string');
 
 const config = require('../../config/services/text-it');
 
