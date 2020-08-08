@@ -1,6 +1,6 @@
 # TextIt Webhooks
 
-This is an API server that provides webhooks to use within [TextIt](https://textit.in/) flows.
+This is an API server that provides webhooks to use for [TextIt](https://textit.in/).
 
 It is built in Node.js with [Express](https://expressjs.com/).
 
