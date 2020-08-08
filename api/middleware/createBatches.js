@@ -9,8 +9,6 @@ const textIt = require('../services/text-it');
 module.exports = function createBatches() {
   return async (req, res, next) => {
     try {
-      const dateTime = dateFns.format(new Date(), 'Pp');
-
       const allSubscribersGroup = await textIt.getAllSubscribersGroup();
 
       const groupId = allSubscribersGroup.uuid;
@@ -68,7 +66,6 @@ module.exports = function createBatches() {
       });
 
       const data = {
-        dateTime,
         numberOfSubscribers,
         numberOfGroups,
         groups: groups.map(group => lodash.pick(['uuid', 'name', 'count']))
