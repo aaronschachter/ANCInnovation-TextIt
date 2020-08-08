@@ -78,12 +78,12 @@ POST /api/v1/inbox
 
 This endpoint is still under construction, but will be used within flows to forward inbound messages to external services.
 
-It currently only supports forwarding messages to a Zapier webhook.
+It currently only supports forwarding messages to a [Zapier webhook](https://zapier.com/help/doc/how-get-started-webhooks-zapier), but could be extended to other services like email, Slack, etc via a `destination` query parameter (e.g. `POST /api/v1/inbox?destination=slack`).
 
 **Example request:**
 
 ```
-curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
+curl --location --request POST 'http://localhost:8080/api/v1/inbox' \
 --header 'Accept: application/json' \
 --header 'Authorization: Basic [Your base64 encoded username and password]' \
 --header 'Content-Type: application/json' \
