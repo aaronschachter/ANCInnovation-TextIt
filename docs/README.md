@@ -11,7 +11,8 @@ POST /api/v1/subscriberGroups
 
 This endpoint paginates through all contacts in an "All Subscribers" TextIt group, and adds them into new groups it creates, each with maximum size 100 contacts.
 
-Example request:
+**Example request:**
+
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
 --header 'Accept: application/json' \
@@ -20,7 +21,8 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
 
 ```
 
-Example response:
+**Example response:**
+
 ```
 {
     "numberOfSubscribers": 736,
@@ -80,7 +82,7 @@ This endpoint is still under construction, but will be used within flows to forw
 
 It currently only supports forwarding messages to a Zapier webhook.
 
-Example request:
+**Example request**
 
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
