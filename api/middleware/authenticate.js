@@ -10,7 +10,6 @@ const config = require('../../config/middleware/authenticate');
  * @return {Boolean}
  */
 function validateBasicAuth(user) {
-  console.log(Buffer.from(user.name + ':' +  user.pass).toString('base64'));
   return (user.name === config.auth.name &&
     user.pass === config.auth.pass);
 }
