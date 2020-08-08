@@ -4,5 +4,4 @@ This project is an API server that provides webhooks to use within [TextIt](http
 
 It is built in Node.js with [Express](https://expressjs.com/).
 
-[API documentation](./docs)
-
+See [API documentation](./docs) for details.
