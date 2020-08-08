@@ -6,10 +6,10 @@ These endpoints use [basic authentication](https://developer.mozilla.org/en-US/d
 ## Subscriber Groups
 
 ```
-POST /api/v1/subscribersGroups
+POST /api/v1/subscriberGroups
 ```
 
-This endpoint will paginate through all contacts subscribed to an "All Subscribers" TextIt group, and add them into new groups it creates, each with maximum size 100 contacts.
+This endpoint paginates through all contacts in an "All Subscribers" TextIt group, and adds them into new groups it creates, each with maximum size 100 contacts.
 
 Example request:
 ```
