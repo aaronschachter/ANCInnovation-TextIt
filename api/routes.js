@@ -18,7 +18,7 @@ module.exports = (app) => {
 
   app.get('/', (req, res) => res.send('Hi'));
 
-  app.post('/api/v1/subscriberGroups',
+  app.post('/api/v1/subscriber-groups',
     createSubscriberGroupsMiddleware(),
     getSubcribersMiddleware(),
     addSubcribersMiddleware());

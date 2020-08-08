@@ -2,13 +2,13 @@
 
 All endpoints use [basic authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme) to authenticate.
 
-* [POST /api/v1/subscriberGroups](#subscriber-groups)
+* [POST /api/v1/subscriber-groups](#subscriber-groups)
 * [POST /api/v1/inbox](#inbox)
 
 ## Subscriber Groups
 
 ```
-POST /api/v1/subscriberGroups
+POST /api/v1/subscriber-groups
 ```
 
 This endpoint paginates through all contacts in an "All Subscribers" TextIt group, and adds them into new groups it creates, each with maximum size 100 contacts.
@@ -16,7 +16,7 @@ This endpoint paginates through all contacts in an "All Subscribers" TextIt grou
 **Example request:**
 
 ```
-curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
+curl --location --request POST 'http://localhost:8080/api/v1/subscriber-groups' \
 --header 'Accept: application/json' \
 --header 'Authorization: Basic [Your base64 encoded username and password]' \
 --header 'Content-Type: application/json' \
@@ -26,8 +26,8 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
 
 ```
 {
-    "numberOfSubscribers": 736,
-    "numberOfGroups": 8,
+    "subscribers_count": 736,
+    "groups_count": 8,
     "groups": [
         {
             "uuid": "f940b2dd-a7db-4cc3-9a6d-1d15919d8dc1",

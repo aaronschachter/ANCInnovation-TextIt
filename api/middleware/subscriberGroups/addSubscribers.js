@@ -16,8 +16,8 @@ module.exports = function addSubscribers() {
       });
 
       const data = {
-        numberOfSubscribers,
-        numberOfGroups,
+        subscribers_count: numberOfSubscribers,
+        groups_count: numberOfGroups,
         groups: groups.map(group => lodash.pick(group, ['uuid', 'name', 'count']))
       };
 
