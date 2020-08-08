@@ -18,7 +18,7 @@ module.exports = function addSubscribers() {
       const data = {
         numberOfSubscribers,
         numberOfGroups,
-        groups: groups.map(group => lodash.pick(['uuid', 'name', 'count']))
+        groups: groups.map(group => lodash.pick(group, ['uuid', 'name', 'count']))
       };
 
       logger.debug(`Finished creating ${numberOfGroups} batches for ${numberOfSubscribers} subscribers.`);

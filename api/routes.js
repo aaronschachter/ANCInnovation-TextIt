@@ -15,7 +15,7 @@ const createSubscriberGroupsMiddleware = require('./middleware/subscriberGroups/
 module.exports = (app) => {
   app.use(authenticateMiddleware());
 
-  app.post('/api/v1/batches',
+  app.post('/api/v1/subscriberGroups',
     createSubscriberGroupsMiddleware(),
     getSubscribersMiddleware(),
     addSubscribersMiddleware());
