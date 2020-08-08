@@ -76,7 +76,7 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
 POST /api/v1/inbox
 ```
 
-This endpoint is still under construction, but will be used within flows to forward inbound messages to external services.
+This endpoint accepts a TextIt flow event, and fetches the contact information of the sender to forward the message and profile data to external services.
 
 It currently only supports forwarding messages to a [Zapier webhook](https://zapier.com/help/doc/how-get-started-webhooks-zapier), but could be extended to other services like email, Slack, etc via a `destination` query parameter (e.g. `POST /api/v1/inbox?destination=slack`).
 
@@ -102,4 +102,60 @@ curl --location --request POST 'http://localhost:8080/api/v1/inbox' \
             "category": "Has Text",
             "value": "Hello there"
         }
+```
+
+**Example response:**
+
+```
+{
+    "uuid": "a41aeb32-793c-46ba-b3ac-0bf9ada9f9bd",
+    "name": "Aaron Schachter",
+    "phone": "12065551212",
+    "blocked": false,
+    "stopped": false,
+    "created_on": "2020-07-17T21:00:27.625572Z",
+    "modified_on": "2020-08-08T02:22:36.198947Z",
+    "url": "https://textit.in/contact/read/a41aeb32-793c-46ba-b3ac-0bf9ada9f9bd",
+    "message": {
+        "flow_name": "Admin: Aaron Test",
+        "text": "Hello there"
+    },
+    "fields": {
+        "date_unsubscribed": "2020-08-05",
+        "date_subscribed": "2020-08-04",
+        "business_owner_response": "Yes",
+        "received_stimulus": null,
+        "business_name": "Parkside Daycare",
+        "helping_employer_response": null,
+        "response": null,
+        "number_of_employees": "None",
+        "test_campaign_date": null
+    },
+    "groups": [
+        {
+            "uuid": "4e9443fe-51cb-4aee-aaac-360599158a63",
+            "name": "All Subscribers"
+        },
+        {
+            "uuid": "5f0c44c8-1af0-4c0b-b924-ff0f7c14ccc5",
+            "name": "Business Owner"
+        },
+        {
+            "uuid": "4a0f619f-08e7-40fa-8e2c-5cda0f66357e",
+            "name": "Not Helping Employer"
+        },
+        {
+            "uuid": "a202b216-c8cd-41be-b341-0656d4a1c061",
+            "name": "AK CARES question"
+        },
+        {
+            "uuid": "14fb5848-0734-45e9-bc1f-630062b7b263",
+            "name": "Remove from Stats"
+        },
+        {
+            "uuid": "d4562019-7529-4aa4-a59c-f886b44b9810",
+            "name": "Subscribers Batch 2"
+        }
+    ]
+}
 ```

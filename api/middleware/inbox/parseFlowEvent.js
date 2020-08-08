@@ -11,11 +11,10 @@ module.exports = function parseFlowEvent() {
 
       const { contact, flow, results } = req.body;
 
-      req.data = {
-        contact,
-        flow,
-        results
-      };
+      req.contactId = contact.uuid;
+      req.phone = contact.urn.substring(5),
+      req.flow = flow;
+      req.results = results;
 
       return next();
     } catch (error) {

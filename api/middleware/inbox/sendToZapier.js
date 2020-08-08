@@ -9,31 +9,9 @@ const zapier = require('../../services/zapier');
 module.exports = function sendToZapier() {
   return async (req, res, next) => {
     try {
-      const textItRes = await textIt.get('contacts', { uuid: req.data.contact.uuid });
-
-      //const { fields, groups } = textItRes.body;
-
-      console.log(textItRes);
-
-       const data = {
-        contact: {
-          name: contact.name,
-          phone: contact.urn.substring(5),
-          url:  `https://textit.in/contact/read/${contact.uuid}`,
-        },
-        message: {
-          flowName: flow.name,
-          text: results.result.value,
-        },
-//        fields,
-//        groups,
-      };   
-
-      console.log(data);
-
       const zapierRes = await zapier.postWebhook(data);
 
-      console.log('Zapier response', zapierRes.body);
+      logger.debug('Zapier response', zapierRes.body);
 
       return res.send('Sent to zapier');
     } catch (error) {

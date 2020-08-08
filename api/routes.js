@@ -2,20 +2,31 @@
 
 const logger = require('heroku-logger');
 
+const authenticateMiddleware = require('./middleware/authenticate');
+const getContactMiddleware = require('./middleware/inbox/getContact');
+const sendToZapierMiddleware = require('./middleware/inbox/sendToZapier');
+const addSubcribersMiddleware = require('./middleware/subscriberGroups/addSubscribers');
+const getSubcribersMiddleware = require('./middleware/subscriberGroups/getSubscribers');
+const createSubscriberGroupsMiddleware = require('./middleware/subscriberGroups/createSubscriberGroups');
+const parseFlowEventMiddleware = require('./middleware/inbox/parseFlowEvent');
+
 /**
  * API routes.
  */
 module.exports = (app) => {
-  app.use(require('./middleware/authenticate'));
+  app.use(authenticateMiddleware());
+
+  app.get('/', (req, res) => res.send('Hi'));
 
   app.post('/api/v1/subscriberGroups',
-    require('./middleware/subscriberGroups/createSubscriberGroups'),
-    require('./middleware/subscriberGroups/getSubscribers'),
-    require('./middleware/subscriberGroups/addSubscribers'));
+    createSubscriberGroupsMiddleware(),
+    getSubcribersMiddleware(),
+    addSubcribersMiddleware());
 
   app.post('/api/v1/inbox',
-    require('./middleware/inbox/parseFlowEvent'),
-    require('./middleware/inbox/sendToZapier'));
+    parseFlowEventMiddleware(),
+    getContactMiddleware(),
+    sendToZapierMiddleware());
 
   // Error handler
   app.use((error, req, res, next) => {

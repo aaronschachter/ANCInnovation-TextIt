@@ -66,6 +66,17 @@ module.exports.getContactsByGroupId = (groupId, cursor) => {
 };
 
 /**
+ * Fetch contact by ID.
+ *
+ * @param {String}
+ * @return {Promise}
+ */
+module.exports.getContactById = (contactId) => {
+  return get('contacts', { uuid: contactId })
+    .then(res => res.body.results[0]);
+};
+
+/**
  * Fetch group by ID.
  *
  * @param {String}
