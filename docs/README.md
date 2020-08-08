@@ -2,7 +2,6 @@
 
 These endpoints use [basic authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme) to authenticate.
 
-
 ## Subscriber Groups
 
 ```
@@ -18,7 +17,6 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
 --header 'Accept: application/json' \
 --header 'Authorization: Basic [Your base64 encoded username and password]' \
 --header 'Content-Type: application/json' \
-
 ```
 
 **Example response:**
@@ -82,7 +80,7 @@ This endpoint is still under construction, but will be used within flows to forw
 
 It currently only supports forwarding messages to a Zapier webhook.
 
-**Example request**
+**Example request:**
 
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
@@ -104,5 +102,4 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriberGroups' \
             "category": "Has Text",
             "value": "Hello there"
         }
-
 ```
