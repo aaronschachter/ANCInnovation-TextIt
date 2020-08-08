@@ -5,6 +5,7 @@ const logger = require('heroku-logger');
 const catchallMiddleware = require('./middleware/catchall');
 const getGroupsMiddleware = require('./middleware/getGroups');
 const getContactsMiddleware = require('./middleware/getContacts');
+const authenticateMiddleware = require('./middleware/authenticate');
 const createBatchesMiddleware = require('./middleware/createBatches');
 const parseFlowEventMiddleware = require('./middleware/parseFlowEvent');
 
@@ -12,6 +13,8 @@ const parseFlowEventMiddleware = require('./middleware/parseFlowEvent');
  * API routes.
  */
 module.exports = (app) => {
+  app.use(authenticateMiddleware());
+
   app.get('/api/v1/groups', getGroupsMiddleware());
   app.get('/api/v1/contacts', getContactsMiddleware());
 
