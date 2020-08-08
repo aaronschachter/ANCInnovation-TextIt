@@ -1,5 +1,5 @@
 {
-  "name": "text-it-admin",
+  "name": "text-it-webhooks",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Aaron Schachter",
   "license": "MIT",
   "dependencies": {
     "basic-auth": "^2.0.1",
