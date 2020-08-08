@@ -6,8 +6,7 @@ These endpoints use [basic authentication](https://developer.mozilla.org/en-US/d
 ## Subscriber Groups
 
 ```
-POST /api/v1/subscribersGroups`
-    
+POST /api/v1/subscribersGroups
 ```
 
 This endpoint will paginate through all contacts subscribed to an "All Subscribers" TextIt group, and add them into new groups with maximum size 100 contacts.
@@ -74,11 +73,10 @@ Example response:
 ## Inbox
 
 ```
-POST /api/v1/inbox`
-    
+POST /api/v1/inbox
 ```
 
-This endpoint is still under construction, but will be used to forward inbound messages from contacts to external services.
+This endpoint is still under construction, but will be used within flows to forward inbound messages to external services.
 
 It currently only supports forwarding messages to a Zapier webhook.
 
