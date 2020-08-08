@@ -4,7 +4,7 @@
   "description": "Webhooks to use with TextIt",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.js"
   },
   "author": "Aaron Schachter",
   "license": "MIT",

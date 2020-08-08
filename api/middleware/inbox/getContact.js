@@ -13,7 +13,7 @@ module.exports = function getContact() {
 
       const { fields, groups, name, blocked, stopped, created_on, modified_on } = textItRes;
 
-       const data = {
+       req.data = {
         uuid: req.contactId,
         name,
         phone: req.phone,

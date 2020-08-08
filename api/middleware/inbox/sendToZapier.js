@@ -9,11 +9,15 @@ const zapier = require('../../services/zapier');
 module.exports = function sendToZapier() {
   return async (req, res, next) => {
     try {
-      const zapierRes = await zapier.postWebhook(data);
+      if (req.query.test) {
+        logger.info('Skipping send to Zaper');
+      } else {
+        const zapierRes = await zapier.postWebhook(req.data);
 
-      logger.debug('Zapier response', zapierRes.body);
+        logger.debug('Zapier response', zapierRes.body);
+      }
 
-      return res.send('Sent to zapier');
+      return res.send(req.data);
     } catch (error) {
       return next(error);
     }
