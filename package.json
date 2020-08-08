@@ -1,11 +1,10 @@
 {
   "name": "text-it-webhooks",
-  "version": "0.0.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Webhooks to use with TextIt",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aaron Schachter",
   "license": "MIT",
