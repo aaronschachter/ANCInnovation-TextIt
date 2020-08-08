@@ -3,17 +3,13 @@
 const logger = require('heroku-logger');
 const superagent = require('superagent');
 
-const textIt = require('../services/text-it');
-const zapier = require('../services/zapier');
+const textIt = require('../../services/text-it');
+const zapier = require('../../services/zapier');
 
-module.exports = function getSupport() {
+module.exports = function sendToZapier() {
   return async (req, res, next) => {
     try {
-      console.log(req.body);
-
-      const { contact, flow, results } = req.body;
-
-      const textItRes = await textIt.get('contacts', { uuid: contact.uuid });
+      const textItRes = await textIt.get('contacts', { uuid: req.data.contact.uuid });
 
       //const { fields, groups } = textItRes.body;
 
@@ -35,9 +31,9 @@ module.exports = function getSupport() {
 
       console.log(data);
 
-      //const zapierRes = await zapier.postWebhook(data);
+      const zapierRes = await zapier.postWebhook(data);
 
-      //console.log('Zapier response', zapierRes.body);
+      console.log('Zapier response', zapierRes.body);
 
       return res.send('Sent to zapier');
     } catch (error) {

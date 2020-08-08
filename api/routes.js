@@ -2,25 +2,20 @@
 
 const logger = require('heroku-logger');
 
-const catchallMiddleware = require('./middleware/catchall');
-
-const authenticateMiddleware = require('./middleware/authenticate');
-const addSubscribersMiddleware = require('./middleware/subscriberGroups/addSubscribers');
-const getSubscribersMiddleware = require('./middleware/subscriberGroups/getSubscribers');
-const createSubscriberGroupsMiddleware = require('./middleware/subscriberGroups/createSubscriberGroups');
-
 /**
  * API routes.
  */
 module.exports = (app) => {
-  app.use(authenticateMiddleware());
+  app.use(require('./middleware/authenticate'));
 
   app.post('/api/v1/subscriberGroups',
-    createSubscriberGroupsMiddleware(),
-    getSubscribersMiddleware(),
-    addSubscribersMiddleware());
+    require('./middleware/subscriberGroups/createSubscriberGroups'),
+    require('./middleware/subscriberGroups/getSubscribers'),
+    require('./middleware/subscriberGroups/addSubscribers'));
 
-  app.post('/api/v1/support', catchallMiddleware());
+  app.post('/api/v1/inbox',
+    require('./middleware/inbox/parseFlowEvent'),
+    require('./middleware/inbox/sendToZapier'));
 
   // Error handler
   app.use((error, req, res, next) => {
