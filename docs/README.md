@@ -13,7 +13,8 @@ POST /api/v1/subscriber-groups
 
 This endpoint paginates through all contacts in an "All Subscribers" TextIt group, and adds them into new groups it creates, each with maximum size 100 contacts.
 
-**Example request:**
+<details>
+<summary>Example request</summary>
 
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/subscriber-groups' \
@@ -22,7 +23,10 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriber-groups' 
 --header 'Content-Type: application/json' \
 ```
 
-**Example response:**
+</details>
+
+<details>
+<summary>Example response</summary>
 
 ```
 {
@@ -73,6 +77,8 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriber-groups' 
 }
 ```
 
+</details>
+
 ## Inbox
 
 ```
@@ -83,7 +89,8 @@ This endpoint accepts a TextIt flow event, and fetches the contact information o
 
 It currently only supports forwarding messages to a [Zapier webhook](https://zapier.com/help/doc/how-get-started-webhooks-zapier), but could be extended to other services like email, Slack, etc via a `destination` query parameter (e.g. `POST /api/v1/inbox?destination=slack`).
 
-**Example request:**
+<details>
+<summary>Example request</summary>
 
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/inbox' \
@@ -107,7 +114,10 @@ curl --location --request POST 'http://localhost:8080/api/v1/inbox' \
         }
 ```
 
-**Example response:**
+</details>
+
+<details>
+<summary>Example response</summary>
 
 ```
 {
@@ -162,3 +172,6 @@ curl --location --request POST 'http://localhost:8080/api/v1/inbox' \
     ]
 }
 ```
+
+</details>
+
