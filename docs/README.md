@@ -2,6 +2,9 @@
 
 These endpoints use [basic authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme) to authenticate.
 
+* [POST /api/v1/subscriberGroups](#subscriber-groups)
+* [POST /api/v1/inbox](#inbox)
+
 ## Subscriber Groups
 
 ```
