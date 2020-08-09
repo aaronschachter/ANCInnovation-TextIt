@@ -85,9 +85,9 @@ curl --location --request POST 'http://localhost:8080/api/v1/subscriber-groups' 
 POST /api/v1/inbox
 ```
 
-This endpoint accepts a TextIt flow event, and fetches the contact information of the sender to forward the message and profile data to external services.
+This endpoint accepts a TextIt flow event, and fetches the contact information of the sender to forward the message and profile data to these external services:
 
-It currently only supports forwarding messages to a [Zapier webhook](https://zapier.com/help/doc/how-get-started-webhooks-zapier), but could be extended to other services like email, Slack, etc via a `destination` query parameter (e.g. `POST /api/v1/inbox?destination=slack`).
+* [Zapier webhook](https://zapier.com/help/doc/how-get-started-webhooks-zapier)
 
 <details>
 <summary>Example request</summary>

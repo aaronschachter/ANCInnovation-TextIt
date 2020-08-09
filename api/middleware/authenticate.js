@@ -22,9 +22,6 @@ module.exports = function authenticate() {
       return next();
     }
 
-    logger.debug('Unauthorized request headers', req.headers);
-    logger.debug('Unauthorized request query', req.query);
-    logger.debug('Unauthorized request body', req.body);
     res.setHeader('WWW-Authenticate', 'Basic');
 
     return res.status(config.unauthorizedErrorCode).send({
