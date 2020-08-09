@@ -21,7 +21,7 @@ module.exports = function createBatches() {
 
       // Create the batch groups (and delete first if group already exists).
       for (let i = 0; i < req.numberOfGroups; i++) {
-        const name = `Subscribers Batch ${i + 1}`;
+        const name = `Batch ${i + 1}`;
         let group = await textIt.getGroupByName(name);
 
         if (group) {
