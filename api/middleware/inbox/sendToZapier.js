@@ -3,13 +3,12 @@
 const logger = require('heroku-logger');
 const superagent = require('superagent');
 
-const textIt = require('../../services/text-it');
 const zapier = require('../../services/zapier');
 
 module.exports = function sendToZapier() {
   return async (req, res, next) => {
     try {
-      if (req.query.test) {
+      if (zapier.isDisabled()) {
         logger.info('Skipping send to Zaper');
       } else {
         const zapierRes = await zapier.postWebhook(req.data);

@@ -5,6 +5,8 @@ const logger = require('heroku-logger');
 
 const { webhookUrl } = require('../../config/services/zapier');
 
+module.exports.isDisabled = () => !webhookUrl;
+
 /**
  * Execute a POST request to a Zapier webhook.
  *

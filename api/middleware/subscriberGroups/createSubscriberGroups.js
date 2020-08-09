@@ -15,7 +15,7 @@ module.exports = function createBatches() {
       req.numberOfSubscribers = allSubscribersGroup.count;
       req.numberOfGroups = Math.ceil(req.numberOfSubscribers / 100);
 
-      logger.debug(`Creating ${req.numberOfGroups} batches for ${req.numberOfSubscribers} subscribers`);
+      logger.info(`Creating ${req.numberOfGroups} batches for ${req.numberOfSubscribers} subscribers`);
 
       req.groups = [];
 
@@ -25,12 +25,14 @@ module.exports = function createBatches() {
         let group = await textIt.getGroupByName(name);
 
         if (group) {
-          logger.debug('Deleting existing group', { group });
+          logger.info('Deleting existing group', { group });
 
           await textIt.deleteGroupById(group.uuid);
         }
 
         group = await textIt.createGroup(name);
+
+        logger.info('Created group', { group });
 
         req.groups[i] = lodash.assign(group, { members: [] });
       }
