@@ -5,18 +5,20 @@ const superagent = require('superagent');
 
 const zapier = require('../../services/zapier');
 
-module.exports = function sendToZapier() {
+module.exports = function postZapierWebhook() {
   return async (req, res, next) => {
     try {
       if (zapier.isDisabled()) {
-        logger.info('Skipping send to Zaper');
-      } else {
-        const zapierRes = await zapier.postWebhook(req.data);
+        logger.debug('Zapier disabled');
 
-        logger.debug('Zapier response', zapierRes.body);
+        return next();
       }
 
-      return res.send(req.data);
+      const zapierRes = await zapier.postWebhook(req.data);
+
+      logger.debug('Zapier response', zapierRes.body);
+
+      return next();
     } catch (error) {
       return next(error);
     }
