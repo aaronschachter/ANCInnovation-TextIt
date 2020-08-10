@@ -12,15 +12,15 @@ module.exports = function createBatches() {
       const allSubscribersGroup = await textIt.getAllSubscribersGroup();
 
       req.groupId = allSubscribersGroup.uuid;
-      req.numberOfSubscribers = allSubscribersGroup.count;
-      req.numberOfGroups = Math.ceil(req.numberOfSubscribers / 100);
+      req.subscribersCount = allSubscribersGroup.count;
+      req.subscriberGroupsCount = Math.ceil(req.subscribersCount / 100);
 
-      logger.info(`Creating ${req.numberOfGroups} batches for ${req.numberOfSubscribers} subscribers`);
+      logger.info(`Creating ${req.subscriberGroupsCount} batches for ${req.subscribersCount} subscribers`);
 
       req.groups = [];
 
       // Create the batch groups (and delete first if group already exists).
-      for (let i = 0; i < req.numberOfGroups; i++) {
+      for (let i = 0; i < req.subscriberGroupsCount; i++) {
         const name = `Batch ${i + 1}`;
         let group = await textIt.getGroupByName(name);
 

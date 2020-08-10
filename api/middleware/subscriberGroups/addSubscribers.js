@@ -8,7 +8,7 @@ const textIt = require('../../services/text-it');
 module.exports = function addSubscribers() {
   return async (req, res, next) => {
     try {
-      const { groups, numberOfGroups, numberOfSubscribers } = req;
+      const { groups, subscriberGroupsCount, subscribersCount } = req;
 
       // Now that we've batched all subscribers, add them to the groups we created.
       groups.forEach(async (group) => {
@@ -16,12 +16,12 @@ module.exports = function addSubscribers() {
       });
 
       req.data = {
-        subscribers_count: numberOfSubscribers,
-        groups_count: numberOfGroups,
+        subscribers_count: subscribersCount,
+        groups_count: subscriberGroupsCount,
         groups: groups.map(group => lodash.pick(group, ['uuid', 'name', 'count']))
       };
 
-      logger.debug(`Finished creating ${numberOfGroups} batches for ${numberOfSubscribers} subscribers.`);
+      logger.debug(`Finished creating ${subscriberGroupsCount} batches for ${subscribersCount} subscribers.`);
 
       return next();
     } catch (error) {
